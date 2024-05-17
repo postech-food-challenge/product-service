@@ -1,0 +1,14 @@
+version: "3.6"
+
+services:
+  db:
+    image: postgres:alpine
+    ports:
+      - "5432:5432"
+    expose:
+      - 5432
+    container_name: "ms-products-db"
+    environment:
+      POSTGRES_USER: food-challenge
+      POSTGRES_DB: products-db
+      POSTGRES_PASSWORD: root
