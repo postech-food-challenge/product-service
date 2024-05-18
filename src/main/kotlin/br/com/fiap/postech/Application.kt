@@ -2,16 +2,14 @@ package br.com.fiap.postech
 
 import br.com.fiap.postech.configuration.*
 import io.ktor.server.application.*
-import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 
-fun main() {
-    embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::module)
-        .start(wait = true)
+fun main(args: Array<String>) {
+    EngineMain.main(args)
 }
 
 fun Application.module() {
-    DatabaseConfiguration.init()
+    DatabaseSingleton.init(environment.config)
     configureSerialization()
     configureRouting()
     configureKoin()

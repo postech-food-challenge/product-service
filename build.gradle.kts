@@ -3,7 +3,8 @@ val kotlin_version: String by project
 val logback_version: String by project
 val koin_version: String by project
 val exposed_version: String by project
-val h2_version: String by project
+val hikaricp_version: String by project
+val postgresql_version: String by project
 
 plugins {
     kotlin("jvm") version "1.9.24"
@@ -40,9 +41,10 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-dao:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-java-time:$exposed_version")
-    //  H2 DB
-    implementation("com.h2database:h2:$h2_version")
-    implementation("org.postgresql:postgresql:42.7.3")
+    implementation("org.postgresql:postgresql:$postgresql_version")
+
+    // CONNECTION POOLING
+    implementation("com.zaxxer:HikariCP:$hikaricp_version")
 
     //  JACKSON
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.0")
