@@ -9,9 +9,9 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
-    DatabaseSingleton.init(environment.config)
-    configureSerialization()
-    configureRouting()
+    DatabaseSingleton.init(environment.config, log)
     configureKoin()
+    configureSerialization()
     configureExceptionsResponse()
+    configureRouting()
 }

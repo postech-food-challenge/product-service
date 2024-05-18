@@ -9,10 +9,8 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 
-internal val LOGGER = KtorSimpleLogger("br/com/fiap/postech/configuration/DatabaseSingleton.kt")
-
 object DatabaseSingleton {
-    fun init(config: ApplicationConfig) {
+    fun init(config: ApplicationConfig, logger: Logger) {
 
         val hikariConfig = HikariConfig().apply {
             jdbcUrl = config.property("storage.url").getString()
@@ -31,9 +29,9 @@ object DatabaseSingleton {
             transaction {
                 productsMigration()
             }
-            LOGGER.info("Database connection and migration successful.")
+            logger.info("Database connection and migration successful.")
         } catch (ex: Exception) {
-            LOGGER.error("Error during database connection or migration: ${ex.message}", ex)
+            logger.error("Error during database connection or migration: ${ex.message}", ex)
             throw ex
         }
     }
