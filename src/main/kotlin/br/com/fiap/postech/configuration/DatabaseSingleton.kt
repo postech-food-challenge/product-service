@@ -1,12 +1,14 @@
 package br.com.fiap.postech.configuration
 
-import br.com.fiap.postech.infraestucture.repository.entitiy.Products
+import br.com.fiap.postech.infraestucture.persistence.entitiy.Products
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import io.ktor.server.config.*
 import io.ktor.util.logging.*
+import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
 
 object DatabaseSingleton {
@@ -35,6 +37,9 @@ object DatabaseSingleton {
             throw ex
         }
     }
+
+    suspend fun <T> dbQuery(block: suspend () -> T): T? =
+        newSuspendedTransaction(Dispatchers.IO) { block() }
 }
 
 private fun productsMigration() {

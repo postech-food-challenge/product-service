@@ -17,13 +17,13 @@ fun Application.configureExceptionsResponse() {
                         HttpStatusCode.OK,
                         ExceptionResponse("${throwable.message}", HttpStatusCode.OK.value)
                     )
+
                 is InvalidParameterException ->
                     call.respond(
                         HttpStatusCode.BadRequest,
                         ExceptionResponse("${throwable.message}", HttpStatusCode.BadRequest.value)
                     )
             }
-
         }
     }
 }

@@ -2,7 +2,7 @@ package br.com.fiap.postech.domain.entities
 
 import br.com.fiap.postech.infraestucture.controller.CreateProductRequest
 import br.com.fiap.postech.infraestucture.controller.UpdateProductRequest
-import br.com.fiap.postech.infraestucture.repository.entitiy.ProductEntity
+import br.com.fiap.postech.infraestucture.persistence.entitiy.ProductEntity
 
 data class Product(
     val id: Long? = null,
@@ -24,7 +24,7 @@ data class Product(
     companion object {
         fun fromEntity(entity: ProductEntity): Product {
             return Product(
-                id = entity.id.value,
+                id = entity.id,
                 name = entity.name,
                 description = entity.description,
                 image = entity.image,

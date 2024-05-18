@@ -1,27 +1,26 @@
 package br.com.fiap.postech.configuration
 
+import br.com.fiap.postech.application.gateways.ProductGateway
 import br.com.fiap.postech.application.usecases.*
 import br.com.fiap.postech.infraestucture.gateway.ProductGatewayImpl
-import br.com.fiap.postech.infraestucture.repository.ProductRepositoryImpl
+import br.com.fiap.postech.infraestucture.persistence.ProductFacade
+import br.com.fiap.postech.infraestucture.persistence.ProductFacadeImpl
 import io.ktor.server.application.*
 import org.koin.dsl.module
 import org.koin.ktor.plugin.Koin
 
 fun Application.configureKoin() {
     install(Koin) {
-        modules(modules)
+        modules(appModules)
     }
 }
 
-val modules = module {
-    val productRepository = ProductRepositoryImpl()
-    val productGateway = ProductGatewayImpl(productRepository)
-    single<ProductGatewayImpl> { productGateway }
-    single<CreateProductInteract> { CreateProductInteract(productGateway) }
-    single<DeleteProductInteract> { DeleteProductInteract(productGateway) }
-    single<FindProductByCategoryInteract> { FindProductByCategoryInteract(productGateway) }
-    single<FindProductByIdInteract> { FindProductByIdInteract(productGateway) }
-    single<FindProductByNameInteract> { FindProductByNameInteract(productGateway) }
-    single<UpdateProductInteract> { UpdateProductInteract(productGateway) }
+val appModules = module {
+    single<ProductFacade> { ProductFacadeImpl() }
+    single<ProductGateway> { ProductGatewayImpl(get()) }
+    single { CreateProductInteract(get()) }
+    single { DeleteProductInteract(get()) }
+    single { FindProductByCategoryInteract(get()) }
+    single { FindProductByIdInteract(get()) }
+    single { UpdateProductInteract(get()) }
 }
-

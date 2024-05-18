@@ -1,5 +1,8 @@
 package br.com.fiap.postech.infraestucture.controller
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class CreateProductRequest(
     val name: String,
     val description: String,
@@ -7,4 +10,3 @@ data class CreateProductRequest(
     val price: Int,
     val category: String
 )
-
