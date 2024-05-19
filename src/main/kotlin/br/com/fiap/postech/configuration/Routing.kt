@@ -13,6 +13,8 @@ fun Application.configureRouting() {
         findProductByIdRoute()
         findProductByCategoryRoute()
 
-        swaggerUI(path = "swagger", swaggerFile = "openapi/documentation.yaml")
+        swaggerUI(path = "swagger", swaggerFile = "openapi/documentation.yaml") {
+            version = "3.1.0"
+        }
     }
 }
