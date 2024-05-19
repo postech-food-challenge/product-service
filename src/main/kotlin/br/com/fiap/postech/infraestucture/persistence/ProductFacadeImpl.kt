@@ -43,7 +43,7 @@ class ProductFacadeImpl : ProductFacade {
     }
 
     override suspend fun save(product: ProductEntity): ProductEntity? = dbQuery {
-        val id = if (product.id != 0L) {
+        val id = if (product.id != null) {
             Products.update({ Products.id eq product.id }) {
                 it[name] = product.name
                 it[description] = product.description

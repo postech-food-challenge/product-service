@@ -1,7 +1,9 @@
 package br.com.fiap.postech.infraestucture.controller
 
 import br.com.fiap.postech.domain.entities.Product
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class ProductResponse(
     val id: Long?,
     val name: String,

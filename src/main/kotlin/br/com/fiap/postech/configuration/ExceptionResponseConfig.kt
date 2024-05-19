@@ -14,8 +14,8 @@ fun Application.configureExceptionsResponse() {
             when (throwable) {
                 is NoObjectFoundException ->
                     call.respond(
-                        HttpStatusCode.OK,
-                        ExceptionResponse("${throwable.message}", HttpStatusCode.OK.value)
+                        HttpStatusCode.NotFound,
+                        ExceptionResponse("${throwable.message}", HttpStatusCode.NotFound.value)
                     )
 
                 is InvalidParameterException ->

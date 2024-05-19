@@ -26,9 +26,9 @@ data class ProductEntity(
 }
 
 object Products : LongIdTable() {
-    val name = varchar("name", 30).uniqueIndex()
-    val description = varchar("description", 50)
+    val name = varchar("name", 50).uniqueIndex()
+    val description = varchar("description", 1024)
     val image = varchar("image", 1024)
     val price = integer("price")
-    val category = varchar("category", 1024).index()
+    val category = varchar("category", 10).index()
 }
