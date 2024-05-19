@@ -1,6 +1,7 @@
 package br.com.fiap.postech.infraestucture.persistence
 
 import br.com.fiap.postech.configuration.DatabaseSingleton.dbQuery
+import br.com.fiap.postech.domain.exceptions.DatabaseOperationException
 import br.com.fiap.postech.infraestucture.persistence.entitiy.ProductEntity
 import br.com.fiap.postech.infraestucture.persistence.entitiy.Products
 import org.jetbrains.exposed.sql.*
@@ -42,28 +43,39 @@ class ProductFacadeImpl : ProductFacade {
             .mapNotNull(::resultRowToProductEntity)
     }
 
-    override suspend fun save(product: ProductEntity): ProductEntity? = dbQuery {
-        val id = if (product.id != null) {
-            Products.update({ Products.id eq product.id }) {
-                it[name] = product.name
-                it[description] = product.description
-                it[image] = product.image
-                it[price] = product.price
-                it[category] = product.category
-            }
-            product.id
-        } else {
-            Products.insertAndGetId {
-                it[name] = product.name
-                it[description] = product.description
-                it[image] = product.image
-                it[price] = product.price
-                it[category] = product.category
-            }.value
+
+    override suspend fun update(product: ProductEntity): ProductEntity = dbQuery {
+        val productId = product.id ?: throw DatabaseOperationException("Product ID cannot be null for update operation")
+
+        val rowsUpdated = Products.update({ Products.id eq productId }) {
+            it[name] = product.name
+            it[description] = product.description
+            it[image] = product.image
+            it[price] = product.price
+            it[category] = product.category
         }
 
+        if (rowsUpdated > 0) {
+            Products.select { Products.id eq productId }
+                .mapNotNull { resultRowToProductEntity(it) }
+                .singleOrNull()
+                ?: throw DatabaseOperationException("Failed to retrieve updated product with ID: $productId")
+        } else {
+            throw DatabaseOperationException("Failed to update product with ID: $productId")
+        }
+    } ?: throw DatabaseOperationException("Failed to update product")
+
+    override suspend fun insert(product: ProductEntity): ProductEntity = dbQuery {
+        val id = Products.insertAndGetId {
+            it[name] = product.name
+            it[description] = product.description
+            it[image] = product.image
+            it[price] = product.price
+            it[category] = product.category
+        }.value
+
         product.copy(id = id)
-    }
+    } ?: throw DatabaseOperationException("Failed to insert product")
 
     override suspend fun delete(product: ProductEntity) = dbQuery {
         Products.deleteWhere { Products.id eq product.id }

@@ -1,8 +1,6 @@
 package br.com.fiap.postech.configuration
 
-import br.com.fiap.postech.domain.exceptions.ExceptionResponse
-import br.com.fiap.postech.domain.exceptions.InvalidParameterException
-import br.com.fiap.postech.domain.exceptions.NoObjectFoundException
+import br.com.fiap.postech.domain.exceptions.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.statuspages.*
@@ -12,7 +10,7 @@ fun Application.configureExceptionsResponse() {
     install(StatusPages) {
         exception<Throwable> { call, throwable ->
             when (throwable) {
-                is NoObjectFoundException ->
+                is NoObjectFoundException, is ProductNotFoundException ->
                     call.respond(
                         HttpStatusCode.NotFound,
                         ExceptionResponse("${throwable.message}", HttpStatusCode.NotFound.value)
@@ -22,6 +20,12 @@ fun Application.configureExceptionsResponse() {
                     call.respond(
                         HttpStatusCode.BadRequest,
                         ExceptionResponse("${throwable.message}", HttpStatusCode.BadRequest.value)
+                    )
+
+                is DatabaseOperationException ->
+                    call.respond(
+                        HttpStatusCode.InternalServerError,
+                        ExceptionResponse("${throwable.message}", HttpStatusCode.InternalServerError.value)
                     )
             }
         }

@@ -8,5 +8,5 @@ class CreateProductInteract(private val gateway: ProductGateway) {
     suspend fun create(product: Product) =
         gateway.findByName(product.name)?.let {
             throw ProductAlreadyExistsException(product.name)
-        } ?: gateway.save(product)
+        } ?: gateway.insert(product)
 }
