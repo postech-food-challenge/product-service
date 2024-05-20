@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: products
+  labels:
+    app: products
+  namespace: tech-challenge
+spec:
+  selector:
+    app: products
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
