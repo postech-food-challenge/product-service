@@ -5,12 +5,14 @@ val koin_version: String by project
 val exposed_version: String by project
 val hikaricp_version: String by project
 val postgresql_version: String by project
+val mockkVersion: String by project
 
 plugins {
     kotlin("jvm") version "1.9.24"
     id("io.ktor.plugin") version "2.3.11"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.24"
     id("org.sonarqube") version "4.4.1.3373"
+    id("jacoco")
 }
 
 group = "br.com.fiap.postech"
@@ -28,6 +30,10 @@ sonar {
         property("sonar.projectKey", "postech-food-challenge_products-ms")
         property("sonar.organization", "postech-food-challenge")
         property("sonar.host.url", "https://sonarcloud.io")
+        property(
+            "sonar.coverage.jacoco.xmlReportPaths",
+            "${layout.buildDirectory}/reports/jacoco/test/jacocoTestReport.xml"
+        )
     }
 }
 
@@ -49,6 +55,42 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logback_version")
     implementation("io.insert-koin:koin-ktor:$koin_version")
     implementation("com.zaxxer:HikariCP:$hikaricp_version")
+
+    testImplementation("io.mockk:mockk:${mockkVersion}")
     testImplementation("io.ktor:ktor-server-tests-jvm")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
+
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.2")
+}
+
+jacoco {
+    toolVersion = "0.8.12"
+}
+
+tasks.test {
+    useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+        csv.required.set(false)
+    }
+
+    classDirectories.setFrom(
+        files(classDirectories.files.map {
+            fileTree(it) {
+                exclude(
+                    "br/com/fiap/postech/domain/**",
+                    "br/com/fiap/postech/configuration/**",
+                    "br/com/fiap/postech/infraestucture/**"
+                )
+            }
+        })
+    )
 }
