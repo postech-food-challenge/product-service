@@ -12,29 +12,54 @@ import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransacti
 import org.jetbrains.exposed.sql.transactions.transaction
 
 object DatabaseSingleton {
+    private const val MAX_RETRIES = 10
+    private const val RETRY_DELAY_MS = 1000L
+
     fun init(config: ApplicationConfig, logger: Logger) {
 
+        val host = config.property("storage.host").getString()
+        val port = config.property("storage.port").getString()
+        val database = config.property("storage.database").getString()
+        val user = config.property("storage.user").getString()
+        val password = config.property("storage.password").getString()
+        val poolSize = config.property("storage.poolSize").getString().toInt()
+
+        val jdbcUrl = "jdbc:postgresql://$host:$port/$database"
+
         val hikariConfig = HikariConfig().apply {
-            jdbcUrl = config.property("storage.url").getString()
-            driverClassName = config.property("storage.driver").getString()
-            username = config.property("storage.user").getString()
-            password = config.property("storage.password").getString()
-            maximumPoolSize = config.property("storage.poolSize").getString().toInt()
-            transactionIsolation = "TRANSACTION_REPEATABLE_READ"
+            this.jdbcUrl = jdbcUrl
+            this.driverClassName = config.property("storage.driver").getString()
+            this.username = user
+            this.password = password
+            this.maximumPoolSize = poolSize
+            this.transactionIsolation = "TRANSACTION_REPEATABLE_READ"
             validate()
         }
 
-        val dataSource = HikariDataSource(hikariConfig)
-        Database.connect(dataSource)
+        var attempts = 0
+        var connected = false
 
-        try {
-            transaction {
-                productsMigration()
+        while (!connected) {
+            try {
+                val dataSource = HikariDataSource(hikariConfig)
+                Database.connect(dataSource)
+                transaction {
+                    productsMigration()
+                }
+                logger.info("Database connection and migration successful.")
+                connected = true
+            } catch (ex: Exception) {
+                attempts++
+                logger.error(
+                    "Error during database connection or migration: ${ex.message}. Attempt $attempts of $MAX_RETRIES",
+                    ex
+                )
+                if (attempts < MAX_RETRIES) {
+                    Thread.sleep(RETRY_DELAY_MS)
+                } else {
+                    throw ex
+                }
             }
-            logger.info("Database connection and migration successful.")
-        } catch (ex: Exception) {
-            logger.error("Error during database connection or migration: ${ex.message}", ex)
-            throw ex
         }
     }
 

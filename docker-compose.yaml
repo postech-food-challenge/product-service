@@ -12,3 +12,15 @@ services:
       POSTGRES_USER: food-challenge
       POSTGRES_DB: products-db
       POSTGRES_PASSWORD: root
+  app:
+    depends_on: [ db ]
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USERNAME: food-challenge
+      DB_PASSWORD: root
