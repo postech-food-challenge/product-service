@@ -30,6 +30,10 @@ sonar {
         property("sonar.projectKey", "postech-food-challenge_products-ms")
         property("sonar.organization", "postech-food-challenge")
         property("sonar.host.url", "https://sonarcloud.io")
+        property(
+            "sonar.coverage.jacoco.xmlReportPaths",
+            "${layout.buildDirectory}/reports/jacoco/test/jacocoTestReport.xml"
+        )
     }
 }
 
