@@ -12,6 +12,7 @@ plugins {
     id("io.ktor.plugin") version "2.3.11"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.24"
     id("org.sonarqube") version "4.4.1.3373"
+    id("jacoco")
 }
 
 group = "br.com.fiap.postech"
@@ -55,4 +56,34 @@ dependencies {
     testImplementation("io.ktor:ktor-server-tests-jvm")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+}
+
+jacoco {
+    toolVersion = "0.8.12"
+}
+
+tasks.test {
+    useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+        csv.required.set(false)
+    }
+
+    classDirectories.setFrom(
+        files(classDirectories.files.map {
+            fileTree(it) {
+                exclude(
+                    "br/com/fiap/postech/domain/**",
+                    "br/com/fiap/postech/configuration/**",
+                    "br/com/fiap/postech/infraestucture/**"
+                )
+            }
+        })
+    )
 }
