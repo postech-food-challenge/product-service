@@ -8,9 +8,9 @@ val postgresql_version: String by project
 val mockkVersion: String by project
 
 plugins {
-    kotlin("jvm") version "1.9.24"
-    id("io.ktor.plugin") version "2.3.11"
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.24"
+    kotlin("jvm") version "1.9.23"
+    id("io.ktor.plugin") version "2.3.10"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.23"
     id("org.sonarqube") version "4.4.1.3373"
     id("jacoco")
 }
@@ -29,6 +29,7 @@ sonar {
     properties {
         property("sonar.projectKey", "postech-food-challenge_products-ms")
         property("sonar.organization", "postech-food-challenge")
+        property("sonar.gradle.skipCompile", "true")
         property("sonar.host.url", "https://sonarcloud.io")
         property(
             "sonar.coverage.jacoco.xmlReportPaths",
