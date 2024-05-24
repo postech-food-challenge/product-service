@@ -1,9 +1,9 @@
-package br.com.fiap.postech.infraestucture.persistence
+package br.com.fiap.postech.infrastucture.persistence
 
 import br.com.fiap.postech.configuration.DatabaseSingleton.dbQuery
 import br.com.fiap.postech.domain.exceptions.DatabaseOperationException
-import br.com.fiap.postech.infraestucture.persistence.entitiy.ProductEntity
-import br.com.fiap.postech.infraestucture.persistence.entitiy.Products
+import br.com.fiap.postech.infrastucture.persistence.entitiy.ProductEntity
+import br.com.fiap.postech.infrastucture.persistence.entitiy.Products
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 
