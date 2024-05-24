@@ -27,14 +27,11 @@ application {
 
 sonar {
     properties {
-        property("sonar.projectKey", "postech-food-challenge_products-ms")
+        property("sonar.projectKey", "postech-food-challenge_product-service")
         property("sonar.organization", "postech-food-challenge")
         property("sonar.gradle.skipCompile", "true")
         property("sonar.host.url", "https://sonarcloud.io")
-        property(
-            "sonar.coverage.jacoco.xmlReportPaths",
-            "${layout.buildDirectory}/reports/jacoco/test/jacocoTestReport.xml"
-        )
+        property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
     }
 }
 
