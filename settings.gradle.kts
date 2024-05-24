@@ -1,1 +1,1 @@
-rootProject.name = "products-ms"
+rootProject.name = "product-service"
