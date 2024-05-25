@@ -1,4 +1,4 @@
-package br.com.fiap.postech.infrastucture.persistence.entitiy
+package br.com.fiap.postech.infrastructure.persistence.entitiy
 
 import br.com.fiap.postech.domain.entities.Product
 import org.jetbrains.exposed.dao.id.LongIdTable

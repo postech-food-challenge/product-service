@@ -1,6 +1,6 @@
 package br.com.fiap.postech.configuration
 
-import br.com.fiap.postech.infrastucture.persistence.entitiy.Products
+import br.com.fiap.postech.infrastructure.persistence.entitiy.Products
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import io.ktor.server.config.*

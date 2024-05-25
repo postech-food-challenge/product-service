@@ -1,6 +1,6 @@
-package br.com.fiap.postech.infrastucture.persistence
+package br.com.fiap.postech.infrastructure.persistence
 
-import br.com.fiap.postech.infrastucture.persistence.entitiy.ProductEntity
+import br.com.fiap.postech.infrastructure.persistence.entitiy.ProductEntity
 
 
 interface ProductFacade {
