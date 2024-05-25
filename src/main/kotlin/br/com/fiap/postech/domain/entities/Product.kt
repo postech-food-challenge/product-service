@@ -1,8 +1,8 @@
 package br.com.fiap.postech.domain.entities
 
-import br.com.fiap.postech.infrastucture.controller.CreateProductRequest
-import br.com.fiap.postech.infrastucture.controller.UpdateProductRequest
-import br.com.fiap.postech.infrastucture.persistence.entitiy.ProductEntity
+import br.com.fiap.postech.infrastructure.controller.CreateProductRequest
+import br.com.fiap.postech.infrastructure.controller.UpdateProductRequest
+import br.com.fiap.postech.infrastructure.persistence.entitiy.ProductEntity
 
 data class Product(
     val id: Long? = null,

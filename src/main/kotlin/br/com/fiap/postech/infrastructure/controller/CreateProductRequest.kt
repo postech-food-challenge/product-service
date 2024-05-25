@@ -1,4 +1,4 @@
-package br.com.fiap.postech.infrastucture.controller
+package br.com.fiap.postech.infrastructure.controller
 
 import kotlinx.serialization.Serializable
 

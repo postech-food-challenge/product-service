@@ -34,7 +34,7 @@ sonar {
         property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
         property(
             "sonar.coverage.exclusions",
-            "**/br/com/fiap/postech/domain/**,**/br/com/fiap/postech/configuration/**,**/br/com/fiap/postech/infrastucture/**"
+            "**/br/com/fiap/postech/domain/**,**/br/com/fiap/postech/configuration/**,**/br/com/fiap/postech/infrastructure/**"
         )
     }
 }
@@ -90,7 +90,7 @@ tasks.jacocoTestReport {
                 exclude(
                     "**/br/com/fiap/postech/domain/**",
                     "**/br/com/fiap/postech/configuration/**",
-                    "**/br/com/fiap/postech/infrastucture/**"
+                    "**/br/com/fiap/postech/infrastructure/**"
                 )
             }
         })

@@ -1,6 +1,6 @@
 package br.com.fiap.postech.configuration
 
-import br.com.fiap.postech.infrastucture.controller.*
+import br.com.fiap.postech.infrastructure.controller.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.swagger.*
 import io.ktor.server.routing.*

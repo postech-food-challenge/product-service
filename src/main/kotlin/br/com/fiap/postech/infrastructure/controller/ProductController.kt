@@ -1,4 +1,4 @@
-package br.com.fiap.postech.infrastucture.controller
+package br.com.fiap.postech.infrastructure.controller
 
 import br.com.fiap.postech.application.usecases.*
 import br.com.fiap.postech.domain.entities.Product
