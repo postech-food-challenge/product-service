@@ -33,7 +33,7 @@ Ensure you have the following installed on your local machine:
        ```bash
         docker compose up -d
         ```
-   This command will start both customer-service and it's database
+   This command will start both product-service and it's database
 
 That's it! Your local development environment for running product-service is set up, and you should be able to test our application.
 
