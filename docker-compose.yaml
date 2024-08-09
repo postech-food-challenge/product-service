@@ -10,7 +10,7 @@ services:
     container_name: "ms-products-db"
     environment:
       POSTGRES_USER: food-challenge
-      POSTGRES_DB: products-db
+      POSTGRES_DB: products
       POSTGRES_PASSWORD: root
   app:
     depends_on: [ db ]
